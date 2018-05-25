@@ -104,8 +104,23 @@ func disconnect(w http.ResponseWriter, r *http.Request) {
 	db.Close()
 }
 
+func getall(w http.ResponseWriter, r *http.Request) {
+	db, err := gorm.Open("sqlite3", "./db.sqlite")
+	if err != nil {
+		panic(err)
+	}
+
+	var users []User
+	db.Find(&users)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(users)
+
+	db.Close()
+}
+
 func AuthHandler(r *mux.Router) {
 	r.HandleFunc("/auth/signup", signup).Methods("POST")
 	r.HandleFunc("/auth/login", login).Methods("GET")
 	r.HandleFunc("/auth/disconnect", disconnect).Methods("GET")
+	r.HandleFunc("/auth/all", getall).Methods("GET")
 }
