@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -10,6 +11,11 @@ import (
 )
 
 func main() {
+	wordPtr := flag.String("t", "1234", "")
+	flag.Parse()
+	fmt.Println("token: ", *wordPtr)
+	auth.GetToken(*wordPtr)
+	db.GetToken(*wordPtr)
 	r := mux.NewRouter()
 	db.DbHandler(r)
 	auth.AuthHandler(r)

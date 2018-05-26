@@ -17,131 +17,157 @@ type User struct {
 	IsConnected int
 }
 
+var Token string
+
+func GetToken(t string) {
+	Token = t
+}
+
 func signup(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var req User
-	err := decoder.Decode(&req)
-	if err != nil {
-		panic(err)
+	if r.Header.Get("token") == Token {
+		decoder := json.NewDecoder(r.Body)
+		var req User
+		err := decoder.Decode(&req)
+		if err != nil {
+			panic(err)
+		}
+
+		db, err := gorm.Open("sqlite3", "./db.sqlite")
+		if err != nil {
+			panic(err)
+		}
+
+		db.AutoMigrate(&User{})
+
+		var U User
+		db.First(&U, "username = ?", req.Username)
+
+		if U.Username != "" {
+			json.NewEncoder(w).Encode("User already exists")
+			return
+		}
+
+		db.Create(&User{Username: req.Username, Password: req.Password, Email: req.Email, IsConnected: 1})
+
+		db.Close()
+
+		encoder := json.NewEncoder(w)
+		encoder.Encode(User{Username: req.Username, Password: req.Password, Email: req.Email})
+	} else {
+		json.NewEncoder(w).Encode("Wrong Authentification Token")
 	}
-
-	db, err := gorm.Open("sqlite3", "./db.sqlite")
-	if err != nil {
-		panic(err)
-	}
-
-	db.AutoMigrate(&User{})
-
-	var U User
-	db.First(&U, "username = ?", req.Username)
-
-	if U.Username != "" {
-		json.NewEncoder(w).Encode("User already exists")
-		return
-	}
-
-	db.Create(&User{Username: req.Username, Password: req.Password, Email: req.Email, IsConnected: 1})
-
-	db.Close()
-
-	encoder := json.NewEncoder(w)
-	encoder.Encode(User{Username: req.Username, Password: req.Password, Email: req.Email})
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var req User
-	err := decoder.Decode(&req)
-	if err != nil {
-		panic(err)
-	}
+	if r.Header.Get("token") == Token {
+		decoder := json.NewDecoder(r.Body)
+		var req User
+		err := decoder.Decode(&req)
+		if err != nil {
+			panic(err)
+		}
 
-	db, err := gorm.Open("sqlite3", "./db.sqlite")
-	if err != nil {
-		panic(err)
-	}
+		db, err := gorm.Open("sqlite3", "./db.sqlite")
+		if err != nil {
+			panic(err)
+		}
 
-	db.AutoMigrate(&User{})
+		db.AutoMigrate(&User{})
 
-	var U User
-	db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
-	if U.Username != "" {
-		encoder := json.NewEncoder(w)
-		db.Model(&U).Update("IsConnected", 1)
-		encoder.Encode("Logged in")
+		var U User
+		db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
+		if U.Username != "" {
+			encoder := json.NewEncoder(w)
+			db.Model(&U).Update("IsConnected", 1)
+			encoder.Encode("Logged in")
+		} else {
+			json.NewEncoder(w).Encode("User doesn't exist")
+		}
+
+		db.Close()
 	} else {
-		json.NewEncoder(w).Encode("User doesn't exist")
+		json.NewEncoder(w).Encode("Wrong Authentification Token")
 	}
-
-	db.Close()
 }
 
 func disconnect(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var req User
-	err := decoder.Decode(&req)
-	if err != nil {
-		panic(err)
-	}
+	if r.Header.Get("token") == Token {
+		decoder := json.NewDecoder(r.Body)
+		var req User
+		err := decoder.Decode(&req)
+		if err != nil {
+			panic(err)
+		}
 
-	db, err := gorm.Open("sqlite3", "./db.sqlite")
-	if err != nil {
-		panic(err)
-	}
+		db, err := gorm.Open("sqlite3", "./db.sqlite")
+		if err != nil {
+			panic(err)
+		}
 
-	db.AutoMigrate(&User{})
+		db.AutoMigrate(&User{})
 
-	var U User
-	db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
-	if U.Username != "" {
-		encoder := json.NewEncoder(w)
-		db.Model(&U).Update("IsConnected", 0)
-		encoder.Encode("Disconnected")
+		var U User
+		db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
+		if U.Username != "" {
+			encoder := json.NewEncoder(w)
+			db.Model(&U).Update("IsConnected", 0)
+			encoder.Encode("Disconnected")
+		} else {
+			json.NewEncoder(w).Encode("User doesn't exist")
+		}
+
+		db.Close()
 	} else {
-		json.NewEncoder(w).Encode("User doesn't exist")
+		json.NewEncoder(w).Encode("Wrong Authentification Token")
 	}
-
-	db.Close()
 }
 
 func getall(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("sqlite3", "./db.sqlite")
-	if err != nil {
-		panic(err)
+	if r.Header.Get("token") == Token {
+		db, err := gorm.Open("sqlite3", "./db.sqlite")
+		if err != nil {
+			panic(err)
+		}
+
+		var users []User
+		db.Find(&users)
+		encoder := json.NewEncoder(w)
+		encoder.Encode(users)
+
+		db.Close()
+	} else {
+		json.NewEncoder(w).Encode("Wrong Authentification Token")
 	}
-
-	var users []User
-	db.Find(&users)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(users)
-
-	db.Close()
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var req User
-	err := decoder.Decode(&req)
-	if err != nil {
-		panic(err)
-	}
+	if r.Header.Get("token") == Token {
+		decoder := json.NewDecoder(r.Body)
+		var req User
+		err := decoder.Decode(&req)
+		if err != nil {
+			panic(err)
+		}
 
-	db, err := gorm.Open("sqlite3", "./db.sqlite")
-	if err != nil {
-		panic(err)
-	}
+		db, err := gorm.Open("sqlite3", "./db.sqlite")
+		if err != nil {
+			panic(err)
+		}
 
-	var U User
-	db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
-	if U.Username != "" {
-		db.Delete(&U)
-		encoder := json.NewEncoder(w)
-		encoder.Encode("Deleted")
+		var U User
+		db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
+		if U.Username != "" {
+			db.Delete(&U)
+			encoder := json.NewEncoder(w)
+			encoder.Encode("Deleted")
+		} else {
+			json.NewEncoder(w).Encode("User doesn't exists")
+		}
+
+		db.Close()
 	} else {
-		json.NewEncoder(w).Encode("User doesn't exists")
+		json.NewEncoder(w).Encode("Wrong Authentification Token")
 	}
-
-	db.Close()
 }
 
 func AuthHandler(r *mux.Router) {
