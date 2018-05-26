@@ -23,7 +23,7 @@ Flume is based on an SQL database and it's written in Golang.
 
 * Install [golang](https://golang.org/)
 * Build flume `go build github.com/dimensi0n/flume`
-* Launch it `./flume -t yourtoken` you have to choose a JSON Authentication Token (the default one is 1234)
+* Launch it `./flume -t yourtoken -d=true` you have to choose a JSON Authentication Token (the default one is 1234) | -d=true is here to run in background. If you don't wan't it you can remove it from the command
 
 ### Use flume
 
