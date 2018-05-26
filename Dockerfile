@@ -1,4 +1,4 @@
-FROM golang
+FROM arm64v8/golang:alpine
 
 ENV TOKEN 1234
 
