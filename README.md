@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume.svg.png"/>
-  <!-- <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume-logo.png"/>
-  <img src="https://cdn.discordapp.com/attachments/368671564608045058/449841881518571540/flume.svg.png"/>-->
+  <!--<img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume.svg.png"/>-->
+  <!-- <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume-logo.png"/>-->
+  <img src="https://cdn.discordapp.com/attachments/368671564608045058/449846555097432074/flume.svg.png" width="400"/>
 </p>
 
 <br>
