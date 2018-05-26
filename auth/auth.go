@@ -118,9 +118,36 @@ func getall(w http.ResponseWriter, r *http.Request) {
 	db.Close()
 }
 
+func delete(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	var req User
+	err := decoder.Decode(&req)
+	if err != nil {
+		panic(err)
+	}
+
+	db, err := gorm.Open("sqlite3", "./db.sqlite")
+	if err != nil {
+		panic(err)
+	}
+
+	var U User
+	db.First(&U, "username = ? AND password = ?", req.Username, req.Password)
+	if U.Username != "" {
+		db.Delete(&U)
+		encoder := json.NewEncoder(w)
+		encoder.Encode("Deleted")
+	} else {
+		json.NewEncoder(w).Encode("User doesn't exists")
+	}
+
+	db.Close()
+}
+
 func AuthHandler(r *mux.Router) {
 	r.HandleFunc("/auth/signup", signup).Methods("POST")
 	r.HandleFunc("/auth/login", login).Methods("GET")
 	r.HandleFunc("/auth/disconnect", disconnect).Methods("GET")
 	r.HandleFunc("/auth/all", getall).Methods("GET")
+	r.HandleFunc("/auth/delete", delete).Methods("DELETE")
 }
