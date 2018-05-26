@@ -21,9 +21,8 @@ Flume is based on an SQL database and it's written in Golang.
 
 ### Install flume
 
-* Install [golang](https://golang.org/)
-* Build flume `go build github.com/dimensi0n/flume`
-* Launch it `./flume -t yourtoken -d=true` you have to choose a JSON Authentication Token (the default one is 1234) | -d=true is here to run in background. If you don't wan't it you can remove it from the command
+* Install [docker](https://docs.docker.com/install/)
+* Run a container with the flume image `docker run -d -e TOKEN=yourtoken -p 8080:8080 --name flume dimensi0n/flume` You have to replace `yourtoken` with a JSON Authentication Token of your choice (the default one is 1234)
 
 ### Use flume
 
