@@ -1,7 +1,13 @@
-# Flume ☁️ <"version">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume.svg.png"/>
+  <!-- <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume-logo.png"/>
+  <img src="https://cdn.discordapp.com/attachments/368671564608045058/449841881518571540/flume.svg.png"/>-->
+</p>
 
-```
-Flume ☁️ is a cloud that allows you to :
+<br>
+
+```markdown
+Flume is a cloud that allows you to :
 
 * Interact with a JSON database
 * Create an user, log in the user, disconnect the user
@@ -9,7 +15,7 @@ Flume ☁️ is a cloud that allows you to :
 
 With the power of HTTP Requests.
 
-Flume ☁️ is based on an SQL database and it's written in Golang.
+Flume is based on an SQL database and it's written in Golang.
 ```
 
 
