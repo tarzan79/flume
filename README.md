@@ -1,7 +1,5 @@
 <p align="center">
-  <!--<img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume.svg.png"/>-->
-  <!-- <img src="https://raw.githubusercontent.com/dimensi0n/flume/master/flume-logo.png"/>-->
-  <img src="https://cdn.discordapp.com/attachments/368671564608045058/449851948473253898/flume.png" width="400"/>
+  <img src="http://90.109.222.6:5333/flume_300ppp.png" width="400"/>
 </p>
 
 <br>
@@ -24,10 +22,8 @@ Flume is based on an SQL database and it's written in Golang.
 ### Install flume
 
 * Install [golang](https://golang.org/)
-* Clone the repository (in your GOPATH) `git clone https://github.com/dimensi0n/flume.git`
-* Go inside the flume folder
-* Build it `go build`
-* Launch it
+* Build flume `go build github.com/dimensi0n/flume`
+* Launch it `./flume -t yourtoken` you have to choose a JSON Authentication Token (the default one is 1234)
 
 ### Use flume
 
