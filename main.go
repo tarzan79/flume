@@ -8,7 +8,6 @@ import (
 	"github.com/dimensi0n/flume/auth"
 	"github.com/dimensi0n/flume/db"
 	"github.com/gorilla/mux"
-	_ "github.com/qodrorid/godaemon"
 )
 
 func main() {
