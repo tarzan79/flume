@@ -28,37 +28,7 @@ Flume is based on an SQL database and it's written in Golang.
 ### Use flume
 
 You can now access to flume on the port 8080
-The details of the following endpoints are in the doc (link of the doc)
 
-```
-/db/create
-# Create a new db
-```
-```
-/db/read
-# Get an entire db
-```
-```
-/db/write
-# Update the db
-```
-```
-/auth/signup
-# Create a user
-```
-```
-/auth/login
-# Login an user
-```
-```
-/auth/disconnect
-# Disconnect an user
-```
-```
-/auth/delete
-# Delete an user
-```
-```
-/auth/all
-# Get the list of users
-```
+You can know take a look at the [wiki](https://github.com/dimensi0n/flume/wiki)
+
+Enjoy :)
